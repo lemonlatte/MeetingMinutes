@@ -10,7 +10,9 @@
     <script type="text/javascript" src="/static/js/angular-1.0.1.min.js"></script>
     <script type="text/javascript" src="/static/js/site.js"></script>
 </head>
+
 <script type="text/javascript">
+
     angular.module('basic', []).config(function($httpProvider) {
         $httpProvider.defaults.headers.common['X-CSRFToken'] = $.getCookie("csrftoken");
         $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -21,6 +23,19 @@
         $http.get("/list").success(function(data){
             $scope.meetings = data;
         });
+
+        $scope.addMeeting = function(){
+            $form = $(addMeetingForm);
+            var data = $form.serialize();
+            $http.post("/add", data).success(function(data){
+                $scope.meetings.push(data);
+                $("#minute-detail").modal("hide");
+            });
+        };
+
+        $scope.addMeetingPopup = function(){
+            $("#minute-detail").modal("show");
+        };
 
     }
 
@@ -38,7 +53,7 @@
         <a class="brand" href="#">Meeting Minutes</a>
         <div class="nav-collapse">
           <ul class="nav">
-            <li><a href="#">Add</a></li>
+            <li><a href="#" ng-click="addMeetingPopup()">Add</a></li>
           </ul>
         </div><!-- /.nav-collapse -->
       </div><!-- /.container -->
@@ -70,8 +85,39 @@
 </table>
 </div>
 
+<div id="minute-detail" class="modal hide fade">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">×</button>
+      <h3>Add a new Meeting</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" name="addMeetingForm">
+            <div class="control-group">
+              <label class="control-label" for="meeting_name">Meeting Name</label>
+              <div class="controls">
+                <input type="text" id="meeting_name" name="meeting_name">
+              </div>
+            </div>
 
+            <div class="control-group">
+              <label class="control-label" for="attendees">Attendees</label>
+              <div class="controls">
+                <input type="text" id="attendees" name="attendees">
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label" for="purpose">Purpose</label>
+              <div class="controls">
+                <textarea id="purpose" name="purpose"></textarea>
+              </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn" data-dismiss="modal">Close</a>
+      <a href="#" class="btn btn-primary" ng-click="addMeeting()">Save changes</a>
+    </div>
+</div>
 </body>
-
-
 </html>
