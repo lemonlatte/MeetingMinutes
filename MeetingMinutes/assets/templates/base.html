@@ -25,11 +25,17 @@
         });
 
         $scope.addMeeting = function(){
-            $form = $(addMeetingForm);
-            var data = $form.serialize();
+            var data = $(addMeetingForm).serialize();
             $http.post("/add", data).success(function(data){
                 $scope.meetings.push(data);
                 $("#minute-detail").modal("hide");
+            });
+        };
+
+        $scope.delMeeting = function(index){
+            $http.post("/delete", $.param({"_id": $scope.meetings[index]._id}))
+            .success(function(data){
+                    $scope.meetings.splice(index, 1);
             });
         };
 
@@ -62,26 +68,30 @@
 
 <div class="container">
 <table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Date/Time</th>
-      <th>Meeting Name</th>
-      <th>Attendees</th>
-      <th>Purpose</th>
-      <th>Attachments</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% raw %}
-    <tr ng-repeat="meeting in meetings">
-      <td>{{ meeting.create_time }}</td>
-      <td>{{ meeting.meeting_name }}</td>
-      <td>{{ meeting.attendees }}</td>
-      <td>{{ meeting.purpose }}</td>
-      <td>{{ meeting.attachment }}</td>
-    </tr>
-    {% endraw %}
-  </tbody>
+    <thead>
+        <tr>
+            <th></th>
+            <th>Date/Time</th>
+            <th>Meeting Name</th>
+            <th>Attendees</th>
+            <th>Purpose</th>
+            <th>Attachments</th>
+        </tr>
+    </thead>
+    <tbody>
+       {% raw %}
+       <tr ng-repeat="meeting in meetings">
+            <td><a class="icon-remove" ng-click="delMeeting($index)"></a>
+                <a class="icon-edit"></a>
+            </td>
+            <td>{{ meeting.create_time }}</td>
+            <td>{{ meeting.meeting_name }}</td>
+            <td>{{ meeting.attendees }}</td>
+            <td>{{ meeting.purpose }}</td>
+            <td>{{ meeting.attachment }}</td>
+       </tr>
+       {% endraw %}
+    </tbody>
 </table>
 </div>
 

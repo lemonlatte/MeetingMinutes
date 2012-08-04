@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     url(r'^$', 'MeetingMinutes.views.home', name='home'),
     url(r'^list$', 'MeetingMinutes.views.list_meetings', name='list'),
     url(r'^add$', 'MeetingMinutes.views.add_meeting', name='add'),
+    url(r'^delete$', 'MeetingMinutes.views.del_meeting', name='delete'),
     # url(r'^MeetingMinutes/', include('MeetingMinutes.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

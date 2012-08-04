@@ -46,3 +46,12 @@ def add_meeting(request):
 
     return HttpResponse(json.dumps(mongo_parser(meeting)))
 
+
+def del_meeting(request):
+
+    _id = request.POST["_id"]
+
+    meetingDB.remove({"_id": ObjectId(_id)}, safe=True)
+
+    return HttpResponse(0)
+
