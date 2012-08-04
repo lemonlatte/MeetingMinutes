@@ -1,0 +1,10 @@
+*.pyc
+*.db
+*.log
+*.pot
+dist*
+build*
+*.egg-info
+*.DS_Store
+*.mo
+*.sublime-*
