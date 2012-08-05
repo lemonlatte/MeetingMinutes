@@ -25,7 +25,7 @@ def home(request):
 
 def list_meetings(request):
 
-    data = [mongo_parser(meeting) for meeting in meetingDB.find()]
+    data = [mongo_parser(meeting) for meeting in meetingDB.find().sort("create_time", -1)]
     return HttpResponse(json.dumps(data), content_type="application/json")
 
 
@@ -45,6 +45,21 @@ def add_meeting(request):
     meetingDB.insert(meeting, safe=True)
 
     return HttpResponse(json.dumps(mongo_parser(meeting)))
+
+
+def add_minute(request, _id):
+
+    params = request.POST
+
+    data = {
+        "topic": params["topic"],
+        "discussion": params["discussion"],
+        "consensus": params["consensus"]
+    }
+
+    meetingDB.update({"_id": ObjectId(_id)}, {"$push": {"minutes": data}}, safe=True)
+
+    return HttpResponse(json.dumps(data), content_type="application/json")
 
 
 def del_meeting(request):

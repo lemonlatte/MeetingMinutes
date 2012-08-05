@@ -46,6 +46,16 @@
             $("#minute-detail").modal("show");
         };
 
+        $scope.addMinute = function(meeting_index){
+            $scope.target = $scope.meetings[meeting_index];
+            data = $scope.target.newMinute
+            $http.post("/"+ $scope.target._id +"/add", $.param(data))
+            .success(function(data){
+                $scope.target.minutes.push(data);
+                $scope.target.insertMinute = false;
+            });
+        };
+
         $scope.delMinute = function(meeting_index, index){
             $scope.target = $scope.meetings[meeting_index];
             $http.post("/"+ $scope.target._id +"/delete",
@@ -94,11 +104,11 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th><a class="icon-plus-sign"></a></th>
+                    <th><a class="icon-plus-sign" ng-click="meeting.newMinute={};meeting.insertMinute=true"></a></th>
                     <th>#</th>
-                    <th>Topic</th>
-                    <th>Discussion</th>
-                    <th>Consensus</th>
+                    <th class="span4">Topic</th>
+                    <th class="span4">Discussion</th>
+                    <th class="span4">Consensus</th>
                 </tr>
             </thead>
              <tbody ng-init="meeting_index=$index">
@@ -109,7 +119,14 @@
                     <td>{{minute.discussion}}</td>
                     <td>{{minute.consensus}}</td>
                 </tr>
-                <tr ng-Hide="meeting.minutes.length!=0">
+                <tr ng-Show="meeting.insertMinute">
+                    <td><a class="icon-ok" ng-click="addMinute($index)"></a></td>
+                    <td><a class="icon-remove" ng-click="meeting.insertMinute=false"></a></td>
+                    <td><input ng-model="meeting.newMinute.topic" type="text"></td>
+                    <td><textarea ng-model="meeting.newMinute.discussion"></textarea></td>
+                    <td><textarea ng-model="meeting.newMinute.consensus"></textarea></td>
+                </tr>
+                <tr ng-Show="meeting.minutes.length==0">
                     <td colspan="5">You don't have any minutes.</td>
                 </tr>
             </tbody>

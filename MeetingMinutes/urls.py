@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url(r'^list$', 'MeetingMinutes.views.list_meetings', name='list'),
     url(r'^add$', 'MeetingMinutes.views.add_meeting', name='add'),
     url(r'^delete$', 'MeetingMinutes.views.del_meeting', name='delete'),
+    url(r'^(?P<_id>\w+)/add$', 'MeetingMinutes.views.add_minute', name='add_minute'),
     url(r'^(?P<_id>\w+)/delete$', 'MeetingMinutes.views.del_minute', name='delete_minute'),
     # url(r'^MeetingMinutes/', include('MeetingMinutes.foo.urls')),
 
