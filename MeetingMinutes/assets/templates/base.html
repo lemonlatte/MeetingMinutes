@@ -104,20 +104,27 @@
 <div class="container">
 
 <div class="meeting-block" ng-repeat="meeting in meetings">
-    {% raw %}
     <div class="header">
+    {% raw %}
         <h3>{{meeting.meeting_name}}</h3>
+    {% endraw %}
+    {% if not user.is_anonymous %}
         <button type="button" class="close" ng-click="delMeeting($index)">×</button>
+    {% endif %}
     </div>
     <div class="body">
+        {% raw %}
         <p>Date/Time: {{meeting.create_time}}</p>
         <p>Attendees: {{meeting.attendees}}</p>
         <p>Purpose: {{meeting.purpose}}</p>
+        {% endraw %}
         <p>Minutes: </p>
         <table class="table table-striped">
             <thead>
                 <tr>
+                    {% if not user.is_anonymous %}
                     <th><a class="icon-plus-sign" ng-click="meeting.newMinute={};meeting.insertMinute=true"></a></th>
+                    {% endif %}
                     <th>#</th>
                     <th class="span4">Topic</th>
                     <th class="span4">Discussion</th>
@@ -126,11 +133,15 @@
             </thead>
              <tbody ng-init="meeting_index=$index">
                 <tr ng-repeat="minute in meeting.minutes">
+                    {% if not user.is_anonymous %}
                     <td><a class="icon-minus-sign" ng-click="delMinute(meeting_index, $index)"></a></td>
+                    {% endif %}
+        {% raw %}
                     <td>{{ $index + 1 }}</td>
                     <td>{{minute.topic}}</td>
                     <td>{{minute.discussion}}</td>
                     <td>{{minute.consensus}}</td>
+        {% endraw %}
                 </tr>
                 <tr ng-Show="meeting.insertMinute">
                     <td><a class="icon-ok" ng-click="addMinute($index)"></a></td>
@@ -145,7 +156,6 @@
             </tbody>
         </table>
     </div>
-    {% endraw %}
 </div>
 </div>
 

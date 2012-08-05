@@ -6,6 +6,7 @@ from django.conf import settings
 from django.shortcuts import render, HttpResponse
 from django.utils import timezone
 from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
 from pymongo.objectid import ObjectId
 from pymongo import Connection
 
@@ -33,6 +34,7 @@ def list_meetings(request):
     return HttpResponse(json.dumps(data), content_type="application/json")
 
 
+@login_required
 @require_POST
 def add_meeting(request):
 
@@ -51,6 +53,8 @@ def add_meeting(request):
     return HttpResponse(json.dumps(mongo_parser(meeting)))
 
 
+@login_required
+@require_POST
 def add_minute(request, _id):
 
     params = request.POST
@@ -66,6 +70,8 @@ def add_minute(request, _id):
     return HttpResponse(json.dumps(data), content_type="application/json")
 
 
+@login_required
+@require_POST
 def del_meeting(request):
 
     _id = request.POST["_id"]
@@ -75,6 +81,8 @@ def del_meeting(request):
     return HttpResponse(0)
 
 
+@login_required
+@require_POST
 def del_minute(request, _id):
 
     index = request.POST["index"]
