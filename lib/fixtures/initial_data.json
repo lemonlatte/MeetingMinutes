@@ -1,0 +1,25 @@
+[
+    {"pk": 1,
+     "model": "auth.user",
+     "fields": {"username": "admin",
+                "first_name": "我是管理員",
+                "last_name": "",
+                "is_active": true,
+                "is_staff": true,
+                "email": "admin@delta.com.tw",
+                "password": "pbkdf2_sha256$10000$enckIfcp3NKg$qpzdQCSg/JxVUOolGhWZyadb2eFEg9qtY0WwelnL0YY="
+               }
+    },
+    {"pk": 2,
+     "model": "auth.user",
+     "fields": {"username": "user",
+                "first_name": "我是使用者",
+                "last_name": "",
+                "is_active": true,
+                "is_superuser": false,
+                "is_staff": false,
+                "email": "user@delta.com.tw",
+                "password": "pbkdf2_sha256$10000$ekq2Ai6xMOd7$mfvPMzhiim+/iaA7iPZAXi+Jd9luIKlEVTx46CcRFjc="
+            }
+    }
+]

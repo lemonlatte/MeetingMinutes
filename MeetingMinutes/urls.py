@@ -12,6 +12,8 @@ urlpatterns = patterns('',
     url(r'^delete$', 'MeetingMinutes.views.del_meeting', name='delete'),
     url(r'^(?P<_id>\w+)/add$', 'MeetingMinutes.views.add_minute', name='add_minute'),
     url(r'^(?P<_id>\w+)/delete$', 'MeetingMinutes.views.del_minute', name='delete_minute'),
+    url(r'^login$', 'account.views.login', name='login'),
+    url(r'^logout$', 'account.views.logout', name='logout'),
     # url(r'^MeetingMinutes/', include('MeetingMinutes.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

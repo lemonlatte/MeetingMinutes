@@ -83,6 +83,19 @@
           <ul class="nav">
             <li><a href="#" ng-click="addMeetingPopup()">Add</a></li>
           </ul>
+          {% if user.is_anonymous %}
+              <button type="submit" class="pull-right btn btn-primary" onclick="$('#login_form').submit();">Login</button>
+              <form id="login_form" class="pull-right navbar-form form-inline" method="POST" action="/login">
+                {% csrf_token %}
+                <input type="text" class="input-small" name="username" placeholder="Username">
+                <input type="password" class="input-small" name="password" placeholder="Password">
+              </form>
+          {% else %}
+          <div class="nav pull-right">
+          <a href="#">{{ user.username }}</a>
+          <a href="/logout" class="btn btn-primary">Logout</a>
+          </div>
+          {% endif %}
         </div><!-- /.nav-collapse -->
       </div><!-- /.container -->
     </div><!-- /navbar-inner -->
