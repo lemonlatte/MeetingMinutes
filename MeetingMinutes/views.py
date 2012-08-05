@@ -1,6 +1,8 @@
 import json
 from datetime import datetime
 
+import pytz
+from django.conf import settings
 from django.shortcuts import render, HttpResponse
 from django.utils import timezone
 from django.views.decorators.http import require_POST
@@ -8,6 +10,7 @@ from pymongo.objectid import ObjectId
 from pymongo import Connection
 
 meetingDB = Connection("localhost:27017", tz_aware=True)["MeetingMinutes"]["meetings"]
+localtimezone = pytz.timezone(settings.TIME_ZONE)
 
 
 def mongo_parser(data):
@@ -15,6 +18,7 @@ def mongo_parser(data):
             if type(val) == ObjectId:
                 data[key] = str(val)
             if type(val) == datetime:
+                val = val.astimezone(localtimezone)
                 data[key] = datetime.strftime(val, "%Y-%m-%d %H:%M")
         return data
 
