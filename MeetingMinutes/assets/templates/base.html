@@ -5,9 +5,11 @@
 <head>
     <link href="/static/css/bootstrap.css" rel="stylesheet">
     <link href="/static/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link rel="stylesheet/less" type="text/css" href="/static/css/site.less">
     <script type="text/javascript" src="/static/js/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/static/js/angular-1.0.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/less-1.3.0.min.js"></script>
     <script type="text/javascript" src="/static/js/site.js"></script>
 </head>
 
@@ -67,32 +69,44 @@
 </div>
 
 <div class="container">
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th></th>
-            <th>Date/Time</th>
-            <th>Meeting Name</th>
-            <th>Attendees</th>
-            <th>Purpose</th>
-            <th>Attachments</th>
-        </tr>
-    </thead>
-    <tbody>
-       {% raw %}
-       <tr ng-repeat="meeting in meetings">
-            <td><a class="icon-remove" ng-click="delMeeting($index)"></a>
-                <a class="icon-edit"></a>
-            </td>
-            <td>{{ meeting.create_time }}</td>
-            <td>{{ meeting.meeting_name }}</td>
-            <td>{{ meeting.attendees }}</td>
-            <td>{{ meeting.purpose }}</td>
-            <td>{{ meeting.attachment }}</td>
-       </tr>
-       {% endraw %}
-    </tbody>
-</table>
+
+<div class="meeting-block" ng-repeat="meeting in meetings">
+    {% raw %}
+    <div class="header">
+        <h3>{{meeting.meeting_name}}</h3>
+        <button type="button" class="close" ng-click="delMeeting($index)">×</button>
+    </div>
+    <div class="body">
+        <p>Date/Time: {{meeting.create_time}}</p>
+        <p>Attendees: {{meeting.attendees}}</p>
+        <p>Purpose: {{meeting.purpose}}</p>
+        <p>Minutes: </p>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th><a class="icon-plus-sign"></a></th>
+                    <th>#</th>
+                    <th>Topic</th>
+                    <th>Discussion</th>
+                    <th>Consensus</th>
+                </tr>
+            </thead>
+             <tbody ng-init="meeting_index=$index">
+                <tr ng-repeat="minute in meeting.minutes">
+                    <td><a class="icon-minus-sign"></a></td>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{minute.topic}}</td>
+                    <td>{{minute.discussion}}</td>
+                    <td>{{minute.consensus}}</td>
+                </tr>
+                <tr ng-Hide="meeting.minutes.length!=0">
+                    <td colspan="5">You don't have any minutes.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    {% endraw %}
+</div>
 </div>
 
 <div id="minute-detail" class="modal hide fade">

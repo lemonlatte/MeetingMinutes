@@ -1,0 +1,45 @@
+@block-corner: 20px 0 20px 0;
+@header-corner: 20px 0 0 0;
+@block-shadow: 0px 0px 15px #06F;
+
+.meeting-block{
+
+    border-radius: @block-corner;
+    -moz-border-radius: @block-corner;
+    -webkit-border-radius: @block-corner;
+
+    background-color: #EFEFEF;
+
+    &:hover{
+        // background-color: #FEFEFE;
+        box-shadow: @block-shadow;
+        -moz-box-shadow: @block-shadow;
+        -webkit-box-shadow: @block-shadow;
+    }
+    margin-bottom: 25px;
+
+    .header{
+        padding: 5px 20px 5px 20px;
+        background-color: #D0D0D0;
+        color: #FFF;
+        border-radius: @header-corner;
+        -moz-border-radius: @header-corner;
+        -webkit-border-radius: @header-corner;
+
+        h3{
+            display: inline;
+            width: 400px;
+        }
+        .close{
+            padding: 2px 0;
+            float: right;
+        }
+    }
+
+    .body{
+        padding: 25px;
+    }
+
+
+
+}
