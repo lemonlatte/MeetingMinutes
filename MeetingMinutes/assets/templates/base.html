@@ -42,7 +42,17 @@
         };
 
         $scope.addMeetingPopup = function(){
+            $(addMeetingForm).each(function(){this.reset();});
             $("#minute-detail").modal("show");
+        };
+
+        $scope.delMinute = function(meeting_index, index){
+            $scope.target = $scope.meetings[meeting_index];
+            $http.post("/"+ $scope.target._id +"/delete",
+                       $.param({"index": index}))
+            .success(function(index){
+                $scope.target.minutes.splice(index, 1);
+            });
         };
 
     }
@@ -93,7 +103,7 @@
             </thead>
              <tbody ng-init="meeting_index=$index">
                 <tr ng-repeat="minute in meeting.minutes">
-                    <td><a class="icon-minus-sign"></a></td>
+                    <td><a class="icon-minus-sign" ng-click="delMinute(meeting_index, $index)"></a></td>
                     <td>{{ $index + 1 }}</td>
                     <td>{{minute.topic}}</td>
                     <td>{{minute.discussion}}</td>

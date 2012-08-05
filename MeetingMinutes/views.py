@@ -55,3 +55,12 @@ def del_meeting(request):
 
     return HttpResponse(0)
 
+
+def del_minute(request, _id):
+
+    index = request.POST["index"]
+
+    meetingDB.update({"_id": ObjectId(_id)}, {"$unset": {"minutes.%s" % index: 1}}, safe=True)
+    meetingDB.update({"_id": ObjectId(_id)}, {"$pull": {"minutes": None}}, safe=True)
+
+    return HttpResponse(index)
